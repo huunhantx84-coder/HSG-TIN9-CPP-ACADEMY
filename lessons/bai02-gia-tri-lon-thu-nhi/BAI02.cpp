@@ -1,0 +1,27 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    cin >> n;
+    vector<long long> a(n);
+    for (int i = 0; i < n; i++) {
+        cin >> a[i];
+    }
+
+    sort(a.begin(), a.end());
+    long long maxValue = a[n - 1];
+
+    for (int i = n - 2; i >= 0; i--) {
+        if (a[i] < maxValue) {
+            cout << a[i];
+            return 0;
+        }
+    }
+
+    cout << "NOT FOUND";
+    return 0;
+}
