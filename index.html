@@ -29,34 +29,34 @@ body.modal-open{overflow:hidden}
 <section id="s3" hidden><h2>4. Mô phỏng Euclid từng bước</h2><p>UCLN(A,B) = UCLN(B,A%B). Thực hiện với A=84 và B=126.</p><div class="devgrid"><div class="devpanel"><h3>① Code C++</h3><div class="codewindow" id="simWindow"><div class="codehead"><span>Euclid.cpp</span><button id="simZoom" type="button">⛶ Phóng to</button></div><pre class="codebody" id="simCode"></pre></div></div><div class="devpanel"><h3>② Lưu đồ thuật toán</h3><div class="flowchart" id="flowNodes"><div class="flownode" data-node="0">Bắt đầu: A = 84; B = 126</div><div class="flowarrow">↓</div><div class="flownode condition" data-node="1">B != 0 ?</div><div class="flowarrow">↓ Đúng</div><div class="flownode" data-node="2">r = A % B</div><div class="flowarrow">↓</div><div class="flownode" data-node="3">A = B; B = r</div><div class="flowarrow">↶ Quay lại điều kiện</div><div class="flownode" data-node="4">Sai → Kết thúc: UCLN = A</div></div></div><div class="devpanel"><h3>③ Trạng thái và lịch sử</h3><div class="stats"><div>A<strong id="a"></strong></div><div>B<strong id="b"></strong></div><div>r<strong id="r"></strong></div></div><p class="info" id="desc"></p><p class="info" id="expBox">Chọn một bước để xem giải thích dòng lệnh.</p></div></div><button id="back">← Bước trước</button><button id="next">Bước tiếp →</button><button id="autoplay">Chạy tự động</button><button id="again">Đặt lại</button><h3>Lịch sử</h3><ol id="history"></ol><p><b>Khi B = 0, biến nào chứa UCLN?</b></p><label class="choice"><input type="radio" name="q5" value="1"> A</label><label class="choice"><input type="radio" name="q5" value="2"> B</label><button onclick="grade(3,step===4&&correct('q5','1'))">Kiểm tra →</button><p id="f3"></p></section>
 <section id="s4" hidden><h2>5. Lập trình C++ và kiểm thử</h2><p>Euclid thay đổi A và B; hãy giữ A1, B1 ban đầu để tính số vở, bút mỗi túi.</p><p><b>Số túi K bằng gì?</b></p><label class="choice"><input type="radio" name="q6" value="1"> A sau khi Euclid kết thúc</label><label class="choice"><input type="radio" name="q6" value="2"> B sau khi Euclid kết thúc</label><p><b>Kiểu dữ liệu cho giới hạn 10¹⁸?</b></p><label class="choice"><input type="radio" name="q7" value="1"> long long</label><label class="choice"><input type="radio" name="q7" value="2"> int</label><button onclick="grade(4,correct('q6','1')&&correct('q7','1'))">Kiểm tra và mở bài giải</button><p id="f4"></p><div id="solution" hidden><h3>Mã nguồn C++</h3><div class="codewindow" id="fullCodeWindow"><div class="codehead"><span>● ● ● &nbsp; LUYEN01.cpp</span><button id="codeZoom" type="button">⛶ Phóng to</button></div><pre class="codebody" id="code"></pre></div><button id="explainToggle" type="button">Giải thích từng dòng</button><p id="codeExplanation" class="info" hidden></p><button id="linePrev" type="button" hidden>← Dòng trước</button><button id="lineNext" type="button" hidden>Dòng tiếp →</button><h3>Kiểm tra dữ liệu</h3><p>Nhập hai số nguyên dương đến 10¹⁸.</p><input id="A" type="text" value="84" aria-label="Số vở"><input id="B" type="text" value="126" aria-label="Số bút"><button id="test">Tính kết quả</button><pre id="out"></pre><p class="info">Hãy tự gõ lại chương trình, thử dữ liệu (7,13), (100,100), (1,1) và số lớn. Trang này không trực tiếp biên dịch C++.</p></div></section><footer>HSG Tin học 9 – Tự học có hướng dẫn · Tiến độ chỉ lưu trên trình duyệt</footer></main>
 <script>
-let max=0,now=0,step=0,clock=null,valid=new Set();const $=id=>document.getElementById(id);try{max=Math.min(4,Math.max(0,parseInt(localStorage.getItem('hsg1')||'0')||0))}catch(e){}const names=['Đọc đề','Khám phá','Nhận diện UCLN','Mô phỏng Euclid','Lập trình'];function show(n){now=n;for(let i=0;i<5;i++)$('s'+i).hidden=i!==n;$('tabs').innerHTML='';names.forEach((v,i)=>{let b=document.createElement('button');b.textContent=(i+1)+'. '+v;b.disabled=i>max;b.onclick=()=>show(i);$('tabs').append(b)});$('bar').style.width=((max+1)*20)+'%';$('progress').textContent='Đã mở '+(max+1)+'/5 chặng';if(n!==3)stop()}function correct(q,a){return document.querySelector('input[name='+q+']:checked')?.value===a}function grade(i,ok){$('f'+i).className=ok?'success':'error';$('f'+i).textContent=ok?'Đúng! Em có thể tiếp tục.':'Chưa đạt. Hãy thử lại và kiểm tra điều kiện của bài toán.';if(ok){if(i===4){$('solution').hidden=false;return}max=Math.max(max,i+1);try{localStorage.setItem('hsg1',max)}catch(e){}show(i+1)}}function checkK(){const k=+$('k').value,a=12%k,b=18%k;$('kval').textContent=k;$('r1').textContent=a;$('r2').textContent=b;if(a===0&&b===0){valid.add(k);$('kmsg').textContent='Chia được '+k+' túi, mỗi túi '+12/k+' vở và '+18/k+' bút.'}else $('kmsg').textContent='Không chia được vì còn số dư.';$('found').textContent=[...valid].sort((a,b)=>a-b).join(', ')}$('k').oninput=checkK;checkK();const steps=[{a:84,b:126,r:'–',d:'Kiểm tra: B khác 0, tiếp tục.',l:0},{a:126,b:84,r:84,d:'84 % 126 = 84; A = 126, B = 84.',l:3},{a:84,b:42,r:42,d:'126 % 84 = 42; A = 84, B = 42.',l:3},{a:42,b:0,r:0,d:'84 % 42 = 0; A = 42, B = 0.',l:3},{a:42,b:0,r:0,d:'B = 0, kết thúc. UCLN = 42.',l:5}], lines=['while (B != 0) {','  r = A % B;','  A = B;','  B = r;','}','UCLN = A;'];function draw(){const s=steps[step];$('a').textContent=s.a;$('b').textContent=s.b;$('r').textContent=s.r;$('desc').textContent=s.d;$('pseudo').innerHTML='';lines.forEach((line,i)=>{let sp=document.createElement('span');sp.textContent=line;sp.style.display='block';if(i===s.l)sp.className='active';$('pseudo').append(sp)});$('history').innerHTML='';steps.slice(1,step+1).forEach(x=>{let li=document.createElement('li');li.textContent=x.d;$('history').append(li)});$('back').disabled=step===0;$('next').disabled=step===4}function stop(){if(clock){clearInterval(clock);clock=null}$('autoplay').textContent='Chạy tự động'}$('back').onclick=()=>{stop();step=Math.max(0,step-1);draw()};$('next').onclick=()=>{stop();step=Math.min(4,step+1);draw()};$('again').onclick=()=>{stop();step=0;draw()};$('autoplay').onclick=()=>{if(clock){stop();return}if(step===4)step=0;draw();$('autoplay').textContent='Tạm dừng';clock=setInterval(()=>{step=Math.min(4,step+1);draw();if(step===4)stop()},1300)};draw();const cppSource=[
-'#include <bits/stdc++.h>',
-'using namespace std;',
-'',
-'int main() {',
-'    ios::sync_with_stdio(false);',
-'    cin.tie(nullptr);',
-'',
-'    freopen("LUYEN01.INP", "r", stdin);',
-'    freopen("LUYEN01.OUT", "w", stdout);',
-'',
-'    long long A, B;',
-'    cin >> A >> B;',
-'    long long A1 = A, B1 = B;',
-'',
-'    while (B != 0) {',
-'        long long r = A % B;',
-'        A = B;',
-'        B = r;',
-'    }',
-'',
-'    long long K = A;',
-'    cout << K << \'\\n\';',
-'    cout << A1 / K << " " << B1 / K;',
-'',
-'    return 0;',
-'}'
-].join('\n');
+let max=0,now=0,step=0,clock=null,valid=new Set();const $=id=>document.getElementById(id);try{max=Math.min(4,Math.max(0,parseInt(localStorage.getItem('hsg1')||'0')||0))}catch(e){}const names=['Đọc đề','Khám phá','Nhận diện UCLN','Mô phỏng Euclid','Lập trình'];function show(n){now=n;for(let i=0;i<5;i++)$('s'+i).hidden=i!==n;$('tabs').innerHTML='';names.forEach((v,i)=>{let b=document.createElement('button');b.textContent=(i+1)+'. '+v;b.disabled=i>max;b.onclick=()=>show(i);$('tabs').append(b)});$('bar').style.width=((max+1)*20)+'%';$('progress').textContent='Đã mở '+(max+1)+'/5 chặng';if(n!==3)stop()}function correct(q,a){return document.querySelector('input[name='+q+']:checked')?.value===a}function grade(i,ok){$('f'+i).className=ok?'success':'error';$('f'+i).textContent=ok?'Đúng! Em có thể tiếp tục.':'Chưa đạt. Hãy thử lại và kiểm tra điều kiện của bài toán.';if(ok){if(i===4){$('solution').hidden=false;return}max=Math.max(max,i+1);try{localStorage.setItem('hsg1',max)}catch(e){}show(i+1)}}function checkK(){const k=+$('k').value,a=12%k,b=18%k;$('kval').textContent=k;$('r1').textContent=a;$('r2').textContent=b;if(a===0&&b===0){valid.add(k);$('kmsg').textContent='Chia được '+k+' túi, mỗi túi '+12/k+' vở và '+18/k+' bút.'}else $('kmsg').textContent='Không chia được vì còn số dư.';$('found').textContent=[...valid].sort((a,b)=>a-b).join(', ')}$('k').oninput=checkK;checkK();const steps=[{a:84,b:126,r:'–',d:'Kiểm tra: B khác 0, tiếp tục.',l:0},{a:126,b:84,r:84,d:'84 % 126 = 84; A = 126, B = 84.',l:3},{a:84,b:42,r:42,d:'126 % 84 = 42; A = 84, B = 42.',l:3},{a:42,b:0,r:0,d:'84 % 42 = 0; A = 42, B = 0.',l:3},{a:42,b:0,r:0,d:'B = 0, kết thúc. UCLN = 42.',l:5}], lines=['while (B != 0) {','  r = A % B;','  A = B;','  B = r;','}','UCLN = A;'];function draw(){const s=steps[step];$('a').textContent=s.a;$('b').textContent=s.b;$('r').textContent=s.r;$('desc').textContent=s.d;$('pseudo').innerHTML='';lines.forEach((line,i)=>{let sp=document.createElement('span');sp.textContent=line;sp.style.display='block';if(i===s.l)sp.className='active';$('pseudo').append(sp)});$('history').innerHTML='';steps.slice(1,step+1).forEach(x=>{let li=document.createElement('li');li.textContent=x.d;$('history').append(li)});$('back').disabled=step===0;$('next').disabled=step===4}function stop(){if(clock){clearInterval(clock);clock=null}$('autoplay').textContent='Chạy tự động'}$('back').onclick=()=>{stop();step=Math.max(0,step-1);draw()};$('next').onclick=()=>{stop();step=Math.min(4,step+1);draw()};$('again').onclick=()=>{stop();step=0;draw()};$('autoplay').onclick=()=>{if(clock){stop();return}if(step===4)step=0;draw();$('autoplay').textContent='Tạm dừng';clock=setInterval(()=>{step=Math.min(4,step+1);draw();if(step===4)stop()},1300)};draw();const cppSource = [
+"#include <bits/stdc++.h>",
+"using namespace std;",
+"",
+"int main() {",
+"    ios::sync_with_stdio(false);",
+"    cin.tie(nullptr);",
+"",
+"    freopen(\"LUYEN01.INP\", \"r\", stdin);",
+"    freopen(\"LUYEN01.OUT\", \"w\", stdout);",
+"",
+"    long long A, B;",
+"    cin >> A >> B;",
+"    long long A1 = A, B1 = B;",
+"",
+"    while (B != 0) {",
+"        long long r = A % B;",
+"        A = B;",
+"        B = r;",
+"    }",
+"",
+"    long long K = A;",
+"    cout << K << '\\n';",
+"    cout << A1 / K << \" \" << B1 / K;",
+"",
+"    return 0;",
+"}"
+].join("\n");
 $('test').onclick=()=>{let x=$('A').value.trim(),y=$('B').value.trim();if(!/^\d+$/.test(x)||!/^\d+$/.test(y)){$('out').textContent='Chỉ nhập số nguyên dương.';return}let a=BigInt(x),b=BigInt(y),M=1000000000000000000n;if(a<1n||b<1n||a>M||b>M){$('out').textContent='Giá trị phải thuộc [1, 10¹⁸].';return}let c=a,d=b;while(d){let t=c%d;c=d;d=t}$('out').textContent='LUYEN01.OUT:\n'+c+'\n'+a/c+' '+b/c};$('reset').onclick=()=>{if(confirm('Xóa tiến độ và học lại?')){try{localStorage.removeItem('hsg1')}catch(e){}location.reload()}};show(0);
 
 const comments=[
@@ -69,7 +69,16 @@ const comments=[
 'Kết thúc chương trình thành công.','Kết thúc hàm main.'
 ];
 function htmlEscape(t){return t.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')}
-function syntax(t){const bits=t.match(/"(?:\\.|[^"\\])*"|\/\/.*|#\s*include|\b(?:long long|namespace|using|while|return|int|bool|void|if|else)\b|\b(?:freopen|main|sync_with_stdio|tie)\b|\b\d+\b|[^"\s]+|\s+/g)||[];return bits.map(v=>{let c='';if(v.startsWith('//'))c='comment';else if(v.startsWith('"'))c='str';else if(v.startsWith('#'))c='preproc';else if(/^(long long|int|bool|void)$/.test(v))c='typ';else if(/^(namespace|using|while|return|if|else)$/.test(v))c='kw';else if(/^(freopen|main|sync_with_stdio|tie)$/.test(v))c='fn';else if(/^\d+$/.test(v))c='num';return c?'<span class="'+c+'">'+htmlEscape(v)+'</span>':htmlEscape(v)}).join('')}
+function syntax(t){
+  const rx=/(\/\/.*|"(?:\\.|[^"\\])*"|#include|\blong\b|\bint\b|\busing\b|\bnamespace\b|\bwhile\b|\breturn\b|\bmain\b|\bfreopen\b|\b\d+\b)/g;
+  let out='',last=0,m;
+  while((m=rx.exec(t))!==null){
+    out+=htmlEscape(t.slice(last,m.index));
+    const z=m[0];let cls=z.startsWith('//')?'comment':z.startsWith('"')?'str':z.startsWith('#')?'preproc':/^(long|int)$/.test(z)?'typ':/^(using|namespace|while|return)$/.test(z)?'kw':/^(main|freopen)$/.test(z)?'fn':'num';
+    out+='<span class="'+cls+'">'+htmlEscape(z)+'</span>'; last=rx.lastIndex;
+  }
+  return out+htmlEscape(t.slice(last));
+}
 function paint(src,element,active=-1){element.innerHTML=src.split('\n').map((line,i)=>'<div class="codeline '+(i===active?'current':'')+'"><span class="lineno">'+(i+1)+'</span><span class="codetxt">'+(syntax(line)||'&nbsp;')+'</span></div>').join('')}
 const simSrc=['while (B != 0) {','    long long r = A % B;','    A = B;','    B = r;','}','UCLN = A;'].join('\n');
 function updateCodeView(){paint(cppSource,$('code'),explaining?focusLine:-1)}
