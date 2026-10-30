@@ -7,12 +7,12 @@ int main() {
 
     int n;
     cin >> n;
-    vector<long long> a(n);
+    long long a[100005];
     for (int i = 0; i < n; i++) {
         cin >> a[i];
     }
 
-    sort(a.begin(), a.end());
+    sort(a, a + n);
     long long maxValue = a[n - 1];
 
     for (int i = n - 2; i >= 0; i--) {
