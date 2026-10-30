@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bài 07 | Báo cáo trung bình — HSG Tin 9</title><link rel="stylesheet" href="style.css"></head>
+<body><header><div class="wrap"><span class="eyebrow">HSG TIN HỌC 9 · C++ ACADEMY</span><h1>BÀI 07 · BÁO CÁO TRUNG BÌNH</h1><p>Từ số liệu trung bình đến doanh thu thật — tư duy ngược, biến và vòng lặp for</p></div></header>
+<main class="wrap"><nav id="nav" aria-label="Năm chặng"></nav>
+<section id="s0" class="panel"><span class="pill">CHẶNG 1 / 5</span><h2>Đọc hiểu bài toán</h2><p>Một cửa hàng ghi lại <b>Bᵢ</b> — doanh thu <b>trung bình mỗi ngày, tính từ ngày 1 đến ngày i</b>. Hãy khôi phục doanh thu thực tế từng ngày theo thứ tự. Doanh thu ngày là số nguyên không âm, dữ liệu đảm bảo có đáp án hợp lệ.</p>
+<div class="twocol"><div class="mini"><h3>LUYEN07.INP</h3><p>Dòng 1: N (1 ≤ N ≤ 100000).<br>Dòng 2: N số Bᵢ (0 ≤ Bᵢ ≤ 10⁹).</p><pre>5
+20 30 25 35 40</pre></div><div class="mini"><h3>LUYEN07.OUT</h3><p>N số nguyên là doanh thu từng ngày, theo thứ tự.</p><pre>20 40 15 65 60</pre></div></div>
+<p><b>Lưu ý:</b> B₃=25 không có nghĩa doanh thu riêng ngày 3 là 25; đó là trung bình của 3 ngày đầu tiên.</p><div id="quiz0"></div></section>
+<section id="s1" class="panel hidden"><span class="pill">CHẶNG 2 / 5</span><h2>Khám phá quy luật: tổng mới trừ tổng cũ</h2><p>Thay đổi năm số trung bình (ví dụ mặc định) và chọn ngày cần khôi phục. Hãy đoán kết quả trước khi bấm tính.</p>
+<div class="inputrow"><label>5 giá trị trung bình B₁...B₅<input id="explInput" value="20 30 25 35 40"></label><button id="explSet">Nạp dữ liệu</button></div><div id="explGrid" class="values"></div>
+<div class="inputrow"><label>Chọn ngày i<select id="explDay"><option value="1">Ngày 1</option><option value="2">Ngày 2</option><option value="3" selected>Ngày 3</option><option value="4">Ngày 4</option><option value="5">Ngày 5</option></select></label><label>Em dự đoán doanh thu ngày này<input id="guess" inputmode="numeric" placeholder="Nhập kết quả dự đoán"></label><button id="explCalc">Kiểm tra dự đoán</button></div>
+<div class="minibox" id="explResult" aria-live="polite">Chọn ngày và nhập dự đoán để xem phép tính.</div><div id="quiz1"></div></section>
+<section id="s2" class="panel hidden"><span class="pill">CHẶNG 3 / 5</span><h2>Từ quy luật đến chương trình</h2><div class="formula"><div>Tổng từ ngày 1 đến i = <b>i × Bᵢ</b></div><div>Doanh thu riêng ngày i = <b>(i × Bᵢ) − tổng đến ngày i−1</b></div></div>
+<ol class="steps"><li>Khởi tạo <code>tongTruoc = 0</code>.</li><li>Lặp <code>i</code> từ 1 đến <code>N</code>, đọc trung bình <code>B</code>.</li><li>Đặt <code>tongHienTai = B * i</code>.</li><li>Đặt <code>doanhThu = tongHienTai - tongTruoc</code>, rồi in ra.</li><li>Cập nhật <code>tongTruoc = tongHienTai</code> trước vòng tiếp.</li></ol>
+<p><b>Chú ý:</b> Chương trình không cần mảng; chỉ cần biến, <code>for</code>, <code>if</code>. Dùng <code>long long</code> vì tổng có thể tới 10¹⁴. Thời gian O(N); bộ nhớ O(1).</p>
+<label class="block">Em giải thích vì sao phải cập nhật tongTruoc sau khi in doanh thu:<textarea id="reflection" placeholder="Tự diễn giải bằng lời của em..."></textarea></label><button class="secondary" id="showHint">Xem gợi ý tự đối chiếu</button><div class="minibox hidden" id="hint">Ngày kế tiếp cần biết tổng doanh thu tính đến ngày hiện tại. Vì vậy phải lưu tongHienTai làm tongTruoc trước khi lặp tiếp.</div><div id="quiz2"></div></section>
+<section id="s3" class="panel hidden"><span class="pill">CHẶNG 4 / 5</span><h2>Mô phỏng từng dòng code</h2><p>Hai cột: C++ được tô sáng từng bước và trạng thái các biến. Mô phỏng hỗ trợ 1–12 ngày để dễ quan sát.</p>
+<div class="inputrow"><label>Dãy trung bình B (tối đa 12 số)<input id="simInput" value="20 30 25 35 40"></label><button id="begin">Bắt đầu</button></div>
+<div class="simgrid"><div><h3>Cột 1 · Mã C++</h3><pre class="code" id="simCode">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+int main() {
+    freopen("LUYEN07.INP", "r", stdin);
+    freopen("LUYEN07.OUT", "w", stdout);
+
+    int N;
+    cin &gt;&gt; N;
+    long long B;
+    long long tongTruoc = 0;
+    for (int i = 1; i &lt;= N; i++) {
+        cin &gt;&gt; B;
+        long long tongHienTai = B * i;
+        long long doanhThu = tongHienTai - tongTruoc;
+        cout &lt;&lt; doanhThu;
+        if (i &lt; N) cout &lt;&lt; " ";
+        tongTruoc = tongHienTai;
+    }
+    cout &lt;&lt; '\n';
+    return 0;
+}</pre></div>
+<div><h3>Cột 2 · Trạng thái</h3><div id="stats" class="stats"></div><div id="simValues" class="values"></div><div id="message" class="minibox">Bấm Bắt đầu để mô phỏng.</div><h4>Lịch sử xử lý</h4><ol id="history" class="history"></ol><h4>LUYEN07.OUT</h4><pre id="simOut" class="output">Chưa có kết quả</pre></div></div>
+<div class="buttons"><button id="prev" class="secondary">← Bước trước</button><button id="next">Bước tiếp →</button><button id="auto" class="secondary">▶ Chạy tự động</button><button id="pause" class="secondary">Ⅱ Tạm dừng</button><button id="reset" class="secondary">↺ Đặt lại</button></div><div id="finish"></div></section>
+<section id="s4" class="panel hidden"><span class="pill">CHẶNG 5 / 5</span><h2>Lập trình và kiểm tra</h2><p>Trước khi xem đáp án, hãy tự viết chương trình bằng biến, <code>for</code> và <code>if</code>. Không cần mảng hay <code>vector</code>.</p><div id="quiz3"></div>
+<div class="buttons"><button id="reveal" disabled>Hiện / ẩn lời giải</button><button id="copy" class="secondary" disabled>Sao chép code</button><button id="zoom" class="secondary" disabled>Phóng to code</button></div>
+<div id="solutionWrap" class="hidden"><pre id="solution" class="code"></pre><h3>Giải thích từng dòng</h3><div id="explain"></div></div>
+<h3>Tính thử dữ liệu tự chọn</h3><p>Nhập N và đúng N giá trị trung bình. Trang sử dụng BigInt để giữ số nguyên chính xác tới 10¹⁴.</p>
+<label class="block">Input<textarea id="customInput">5
+20 30 25 35 40</textarea></label><button id="customRun">Tính Output</button><pre id="customOut" class="output">Chưa chạy</pre>
+<div class="buttons"><button class="secondary" id="allTests">Chạy 7 bộ test mẫu</button></div><div id="testReport"></div><div class="minibox">Tính thử trên trang không phải là biên dịch mã C++. Chương trình C++ đọc LUYEN07.INP và xuất LUYEN07.OUT khi chạy trong môi trường phù hợp.</div></section>
+<footer>HSG TIN9 C++ ACADEMY · Học hiểu bản chất trước khi viết code · Tiến độ chỉ lưu trên trình duyệt</footer>
+</main><script src="lesson-data.js"></script><script src="engine.js"></script></body></html>
