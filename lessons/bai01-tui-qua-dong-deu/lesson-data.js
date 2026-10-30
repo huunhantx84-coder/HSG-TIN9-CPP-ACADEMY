@@ -1,0 +1,11 @@
+window.LESSON = {
+title:"BÀI 01 — TÚI QUÀ ĐỒNG ĐỀU",
+source:["#include <bits/stdc++.h>","using namespace std;","","int main() {","    freopen(\"LUYEN01.INP\", \"r\", stdin);","    freopen(\"LUYEN01.OUT\", \"w\", stdout);","","    long long A, B;","    cin >> A >> B;","","    long long a = A, b = B;","    while (b != 0) {","        long long r = a % b;","        a = b;","        b = r;","    }","    long long k = a;","    cout << k << '\\n';","    cout << A / k << \" \" << B / k << '\\n';","    return 0;","}"],
+explain:["Nạp thư viện tiêu chuẩn GCC theo quy ước của lớp.","Sử dụng các tên chuẩn như cin, cout mà không cần std::.","","Điểm bắt đầu của chương trình.","Mở tệp dữ liệu LUYEN01.INP để đọc.","Ghi kết quả sang tệp LUYEN01.OUT.","","Khai báo hai số lớn đến 10^18 bằng long long.","Nhập số vở và số bút.","","Giữ nguyên A, B; dùng a, b để tính UCLN.","Tiếp tục khi số chia b chưa bằng 0.","Lấy phần dư của a chia b.","Chuyển b cũ sang a.","Đưa phần dư vào b.","Kết thúc vòng lặp khi b bằng 0.","Giá trị a lúc này chính là UCLN(A,B).","In số túi tối đa.","Chia A và B cho số túi để có số đồ trong mỗi túi.","Kết thúc chương trình.","Kết thúc hàm main."],
+questions:[
+ {q:"Để chia đều và dùng hết đồ, số túi k phải thỏa điều kiện gì?",options:["Chỉ A chia hết cho k","A và B đều chia hết cho k","A + B chia hết cho k"],correct:1,why:"Mỗi túi có cùng số vở và cùng số bút, nên cả A lẫn B đều phải chia hết cho k."},
+ {q:"Nếu A = 84, B = 126 thì số túi lớn nhất là bao nhiêu?",options:["21","42","84"],correct:1,why:"UCLN(84,126)=42; mỗi túi có 2 quyển vở và 3 cây bút."},
+ {q:"Với A, B đến 10^18, nên chọn cách nào?",options:["Duyệt tất cả k đến min(A,B)","Dùng thuật toán Euclid với while","Dùng int vì số nguyên nào cũng vừa"],correct:1,why:"Euclid tính nhanh bằng phép chia lấy dư; long long chứa được số tới 10^18."}
+],
+tests:[["84","126","42","2","3"],["12","18","6","2","3"],["7","13","1","7","13"],["100","100","100","1","1"],["1","100","1","1","100"],["1000000000000000000","1000000000000000000","1000000000000000000","1","1"]]
+};
