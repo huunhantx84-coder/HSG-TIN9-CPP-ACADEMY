@@ -29,7 +29,7 @@ add(14,i,b,sum,r,"Doanh thu riêng ngày "+i+" = "+sum+" − "+old+" = "+r+".");
 out.push(r);hist.push("Ngày "+i+": B="+b+", tổng="+sum+", doanh thu="+r);
 add(15,i,b,sum,r,"In doanh thu ngày "+i+" = "+r+".");
 add(16,i,b,sum,r,i<n?"i < N đúng: thêm khoảng trắng.":"Ngày cuối: không thêm khoảng trắng.");
-add(17,i,b,sum,r,"Cập nhật tongTruoc = "+sum+".");old=sum;}
+old=sum;add(17,i,b,sum,r,"Cập nhật tongTruoc = "+sum+".");}
 add(11,n+1,0n,old,0n,"i = N+1: điều kiện i <= N sai. Dừng vòng lặp.");
 add(19,n+1,0n,old,0n,"In xuống dòng; Output hoàn tất.");return list;}
 function pause(){if(clock!==null){clearInterval(clock);clock=null;}}
