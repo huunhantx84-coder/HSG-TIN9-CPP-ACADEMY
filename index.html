@@ -56,7 +56,7 @@ let max=0,now=0,step=0,clock=null,valid=new Set();const $=id=>document.getElemen
 '',
 '    return 0;',
 '}'
-].join('\\n');
+].join('\n');
 $('test').onclick=()=>{let x=$('A').value.trim(),y=$('B').value.trim();if(!/^\d+$/.test(x)||!/^\d+$/.test(y)){$('out').textContent='Chỉ nhập số nguyên dương.';return}let a=BigInt(x),b=BigInt(y),M=1000000000000000000n;if(a<1n||b<1n||a>M||b>M){$('out').textContent='Giá trị phải thuộc [1, 10¹⁸].';return}let c=a,d=b;while(d){let t=c%d;c=d;d=t}$('out').textContent='LUYEN01.OUT:\n'+c+'\n'+a/c+' '+b/c};$('reset').onclick=()=>{if(confirm('Xóa tiến độ và học lại?')){try{localStorage.removeItem('hsg1')}catch(e){}location.reload()}};show(0);
 
 const comments=[
