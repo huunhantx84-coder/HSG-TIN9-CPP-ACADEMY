@@ -19,21 +19,30 @@ function calculateExplore(){try{let d=Number($("explDay").value),now=explValues[
 $("explSet").onclick=()=>{try{let arr=readAverages($("explInput").value,5);if(arr.length!==5)throw Error("Phần khám phá dùng đúng 5 ngày.");explValues=arr;calculateExplore();}catch(e){$("explResult").textContent=e.message;}};$("explCalc").onclick=calculateExplore;$("explDay").onchange=calculateExplore;$("explGrid").innerHTML=valuesHTML(explValues);
 $("showHint").onclick=()=>$("hint").classList.toggle("hidden");
 function highlight(el,line){el.innerHTML=L.source.map((s,i)=>'<span class="line '+(i===line?'on':'')+'"><span class="lineno">'+String(i+1).padStart(2,"0")+' │ </span>'+esc(s||" ")+'</span>').join("");}
-function buildFrames(B){let list=[],old=0n,out=[],hist=[],n=B.length;const add=(line,i,avg,newSum,rev,msg)=>list.push({line,i,avg:String(avg),old:String(old),newSum:String(newSum),rev:String(rev),out:out.map(String),hist:[...hist],msg});
-add(8,0,0n,0n,0n,"Đọc N = "+n+".");add(10,0,0n,0n,0n,"Khởi tạo tongTruoc = 0.");
-for(let j=0;j<n;j++){let i=j+1,b=B[j],sum=b*BigInt(i),r=sum-old;
-add(11,i,0n,0n,0n,"Điều kiện i <= N đúng: vào ngày "+i+".");
-add(12,i,b,0n,0n,"Đọc trung bình B = "+b+".");
-add(13,i,b,sum,0n,"Tổng đến ngày "+i+" = "+i+" × "+b+" = "+sum+".");
-add(14,i,b,sum,r,"Doanh thu riêng ngày "+i+" = "+sum+" − "+old+" = "+r+".");
-out.push(r);hist.push("Ngày "+i+": B="+b+", tổng="+sum+", doanh thu="+r);
-add(15,i,b,sum,r,"In doanh thu ngày "+i+" = "+r+".");
-add(16,i,b,sum,r,i<n?"i < N đúng: thêm khoảng trắng.":"Ngày cuối: không thêm khoảng trắng.");
-old=sum;add(17,i,b,sum,r,"Cập nhật tongTruoc = "+sum+".");}
-add(11,n+1,0n,old,0n,"i = N+1: điều kiện i <= N sai. Dừng vòng lặp.");
-add(19,n+1,0n,old,0n,"In xuống dòng; Output hoàn tất.");return list;}
+function buildFrames(B){
+let frames=[],N=B.length,A=Array(N).fill(null),loaded=Array(N).fill(null),out=[],hist=[];
+const add=(line,i,phase,msg)=>frames.push({line,i,phase,msg,out:out.map(String),hist:[...hist],loaded:loaded.map(v=>v===null?null:String(v)),calc:A.map(v=>v===null?null:String(v)),avg:i>=1&&i<=N?String(B[i-1]):"—",revenue:i>=1&&i<=N&&A[i-1]!==null?String(A[i-1]):"—"});
+add(8,0,"Nhập","Đọc N = "+N+".");
+add(9,0,"Khai báo","Tạo mảng B lưu trung bình và mảng A lưu doanh thu.");
+for(let j=0;j<N;j++){let i=j+1;add(11,i,"Nhập","Điều kiện i <= N đúng. Đọc ngày "+i+".");loaded[j]=B[j];hist.push("B["+i+"] = "+B[j]);add(12,i,"Nhập","Nhập B["+i+"] = "+B[j]+".");}
+add(11,N+1,"Nhập","i = N+1, dừng vòng nhập.");
+for(let j=0;j<N;j++){let i=j+1;add(15,i,"Tính toán","Xét ngày i = "+i+".");add(16,i,"Tính toán",i===1?"i == 1 đúng.":"i == 1 sai.");
+if(i===1){A[j]=B[j];hist.push("A[1] = "+A[j]);add(17,i,"Tính toán","Lưu A[1] = B[1] = "+A[j]+".");}
+else{add(18,i,"Tính toán","Chuyển sang nhánh else.");A[j]=BigInt(i)*B[j]-BigInt(i-1)*B[j-1];hist.push("A["+i+"] = "+A[j]);add(19,i,"Tính toán","A["+i+"] = "+i+" × "+B[j]+" − "+(i-1)+" × "+B[j-1]+" = "+A[j]+".");}}
+add(15,N+1,"Tính toán","Đã khôi phục đủ mảng A.");
+for(let j=0;j<N;j++){let i=j+1;add(22,i,"Xuất","Đọc A["+i+"] để in.");out.push(A[j]);hist.push("In A["+i+"] = "+A[j]);add(23,i,"Xuất","In A["+i+"] = "+A[j]+".");add(24,i,"Xuất",i<N?"In khoảng trắng ngăn cách.":"Không in khoảng trắng ở cuối.");}
+add(22,N+1,"Xuất","i = N+1, dừng vòng xuất.");add(26,N+1,"Hoàn thành","Output đã hoàn thành.");return frames;
+}
 function pause(){if(clock!==null){clearInterval(clock);clock=null;}}
-function render(){const f=frames[step];highlight($("simCode"),f?f.line:-1);$("stats").innerHTML=f?["i","avg","old","newSum","rev"].map((k,j)=>'<span>'+["i","B","tongTruoc","tongHienTai","doanhThu"][j]+' = '+esc(f[k])+'</span>').join("")+'<span>Bước '+(step+1)+'/'+frames.length+'</span>':"";$("simValues").innerHTML=valuesHTML(simValues,f?f.i-1:-1,f?f.out.length:0);$("message").textContent=f?f.msg:"Bấm Bắt đầu để mô phỏng.";$("history").innerHTML=f?f.hist.slice(-8).map(x=>'<li>'+esc(x)+'</li>').join(""):"";$("simOut").textContent=f&&f.out.length?f.out.join(" "):"Chưa có kết quả";if(f&&step===frames.length-1){unlock(4);$("finish").innerHTML='<div class="minibox"><b>✓ Hoàn thành mô phỏng.</b><p>Đã khôi phục '+simValues.length+' ngày mà không cần mảng trong C++.</p><button id="toLast">Sang chặng 5 →</button></div>';$("toLast").onclick=()=>show(4);}else $("finish").innerHTML="";}
+function render(){
+const f=frames[step];highlight($("simCode"),f?f.line:-1);
+$("stats").innerHTML=f?'<span>Pha: '+esc(f.phase)+'</span><span>i = '+f.i+'</span><span>B[i] = '+esc(f.avg)+'</span><span>A[i] = '+esc(f.revenue)+'</span><span>Bước '+(step+1)+'/'+frames.length+'</span>':"";
+$("simValues").innerHTML=f?'<strong>Mảng B — trung bình</strong><div class="values">'+valuesHTML(f.loaded.map(v=>v===null?"·":v),f.i-1)+'</div><strong>Mảng A — doanh thu</strong><div class="values">'+valuesHTML(f.calc.map(v=>v===null?"·":v),f.i-1,f.out.length)+'</div>':"";
+$("message").textContent=f?f.msg:"Bấm Bắt đầu để mô phỏng.";
+$("history").innerHTML=f?f.hist.slice(-8).map(v=>'<li>'+esc(v)+'</li>').join(""):"";
+$("simOut").textContent=f&&f.out.length?f.out.join(" "):"Chưa có kết quả";
+if(f&&step===frames.length-1){unlock(4);$("finish").innerHTML='<div class="minibox"><b>✓ Hoàn thành mô phỏng.</b><p>Đã tính mảng A từ mảng B.</p><button id="toLast">Sang chặng 5 →</button></div>';$("toLast").onclick=()=>show(4);}else $("finish").innerHTML="";
+}
 function begin(){pause();try{simValues=readAverages($("simInput").value,12);frames=buildFrames(simValues);step=0;render();}catch(e){$("message").textContent=e.message;}}
 $("begin").onclick=begin;$("next").onclick=()=>{pause();if(!frames.length)begin();else if(step<frames.length-1){step++;render();}};$("prev").onclick=()=>{pause();if(step>0){step--;render();}};$("auto").onclick=()=>{if(!frames.length)begin();if(!frames.length||clock!==null)return;clock=setInterval(()=>{if(step<frames.length-1){step++;render();}else pause();},550);};$("pause").onclick=pause;$("reset").onclick=()=>{pause();frames=[];simValues=[];step=-1;render();};render();
 $("solution").textContent=L.source.join("\n");$("explain").innerHTML=L.explain.map((s,i)=>s?'<div class="explain-row"><strong>'+(i+1)+'</strong><span>'+esc(s)+'</span></div>':"").join("");
