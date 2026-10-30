@@ -87,27 +87,27 @@ window.LESSON={
   ],
   "tests": [
     {
-      "input": "5\\n3 8 1 9 4",
+      "input": "5\n3 8 1 9 4",
       "output": "4 9 1 8 3"
     },
     {
-      "input": "1\\n7",
+      "input": "1\n7",
       "output": "7"
     },
     {
-      "input": "3\\n5 5 5",
+      "input": "3\n5 5 5",
       "output": "5 5 5"
     },
     {
-      "input": "4\\n-2 0 7 -9",
+      "input": "4\n-2 0 7 -9",
       "output": "-9 7 0 -2"
     },
     {
-      "input": "6\\n1 2 3 4 5 6",
+      "input": "6\n1 2 3 4 5 6",
       "output": "6 5 4 3 2 1"
     },
     {
-      "input": "5\\n0 -10 0 10 -10",
+      "input": "5\n0 -10 0 10 -10",
       "output": "-10 10 0 -10 0"
     }
   ]
