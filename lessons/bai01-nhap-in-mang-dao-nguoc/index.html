@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bài 1 — Nhập và in mảng theo thứ tự đảo ngược | HSG Tin 9</title>
+<link rel="stylesheet" href="style.css"></head><body>
+<header><div class="wrap"><div class="eyebrow">HSG TIN 9 · C++ ACADEMY / MẢNG MỘT CHIỀU</div><h1>NHẬP VÀ IN MẢNG THEO THỨ TỰ ĐẢO NGƯỢC</h1><p>Biết vị trí · tìm quy luật · tự viết vòng lặp</p></div></header>
+<main class="wrap">
+<nav aria-label="Chọn chặng học" id="nav"></nav>
+<section id="s0" class="panel"><span class="eyebrow blue">CHẶNG 1 / 5</span><h2>Đọc hiểu đề</h2><p>Nhập số nguyên dương <strong>n (1 ≤ n ≤ 1000)</strong> và dãy gồm n số nguyên. Hãy in ra các số theo thứ tự từ phần tử cuối cùng về phần tử đầu tiên.</p><p>Mỗi phần tử có <strong>giá trị</strong> và <strong>chỉ số</strong>. Chỉ số mảng C++ bắt đầu từ <code>0</code>; phần tử cuối là <code>a[n-1]</code>.</p><div class="two"><div class="mini"><b>INPUT</b><pre>5
+3 8 1 9 4</pre></div><div class="mini"><b>OUTPUT</b><pre>4 9 1 8 3</pre></div></div><div class="array" id="introArray"></div><div id="quiz0"></div></section>
+<section id="s1" class="panel hidden"><span class="eyebrow blue">CHẶNG 2 / 5</span><h2>Khám phá quy luật bằng cách nhấp ô mảng</h2>
+<p>Nhấp vào đúng ô cần in tiếp theo. Không được bắt đầu từ trái sang phải! Mỗi lần đúng, Output sẽ thêm một giá trị.</p><div class="fieldrow"><label>Dãy thử (2–10 số nguyên, cách nhau bởi khoảng trắng)<input id="explInput" value="3 8 1 9 4"></label><button id="explSet">Tạo mảng mới</button></div><div id="explArray" class="array"></div><div class="mini"><b>Output đang hình thành</b><pre id="explOut" aria-live="polite">Chưa in</pre><p id="explHint" class="note">Hãy chọn phần tử cuối cùng.</p></div><button class="light" id="explReset">Làm lại</button><div id="quiz1"></div></section>
+<section id="s2" class="panel hidden"><span class="eyebrow blue">CHẶNG 3 / 5</span><h2>Hình thành thuật toán</h2><div class="steps">
+<p><b>1.</b> Nhập n và n phần tử a[0] ... a[n-1] bằng vòng lặp <code>for</code> tăng i.</p><p><b>2.</b> Gán <code>i = n - 1</code> để bắt đầu từ cuối mảng.</p><p><b>3.</b> Khi <code>i >= 0</code>, in <code>a[i]</code>, rồi giảm <code>i--</code>.</p><p><b>4.</b> Khi <code>i == -1</code>, điều kiện sai: dừng; không truy cập <code>a[-1]</code>.</p></div>
+<div class="mini"><b>Ba cách diễn đạt cùng một hành động</b><pre>for   : for (int i=n-1; i>=0; i--)
+while : int i=n-1; while (i>=0) { ...; i--; }
+do...while: int i=n-1; do { ...; i--; } while (i>=0);</pre><p class="note">Vì n ≥ 1 nên mẫu do...while ở đây chạy ít nhất một lần là phù hợp. Lời giải chính dùng for.</p></div>
+<label class="block">Hãy tự giải thích vì sao bắt đầu tại n−1, không phải n:<textarea id="reflection" placeholder="Viết nhận xét của em..."></textarea></label><button class="light" id="hintBtn">Xem gợi ý tự đối chiếu</button><div id="hint" class="info hidden">Mảng n phần tử được đánh chỉ số 0, 1, ..., n−1. Chỉ số n nằm ngoài phạm vi mảng.</div><p><b>Độ phức tạp:</b> thời gian O(n), bộ nhớ O(n) để lưu n phần tử.</p><div id="quiz2"></div></section>
+<section id="s3" class="panel hidden"><span class="eyebrow blue">CHẶNG 4 / 5</span><h2>Mô phỏng code chạy từng bước</h2><p>Quan sát dòng chương trình được tô sáng, chỉ số i, phần tử hiện tại và Output đang được in.</p><div class="fieldrow"><label>Dãy mô phỏng (1–20 số nguyên)<input id="simInput" value="3 8 1 9 4"></label><button id="begin">Bắt đầu</button></div>
+<div class="simgrid"><div><h3>Cột 1 · Code C++</h3><pre id="simCode" class="code">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+int main() {
+    int n;
+    int a[1000];
+
+    cin &gt;&gt; n;
+    for (int i = 0; i &lt; n; i++) {
+        cin &gt;&gt; a[i];
+    }
+
+    for (int i = n - 1; i &gt;= 0; i--) {
+        cout &lt;&lt; a[i];
+        if (i &gt; 0) cout &lt;&lt; " ";
+    }
+    cout &lt;&lt; '\n';
+    return 0;
+}</pre></div><div><h3>Cột 2 · Trạng thái</h3><div id="state" class="stats"></div><div class="array" id="simArray"></div><div id="message" class="info">Bấm Bắt đầu để theo dõi từng dòng lệnh.</div><h4>Lịch sử các bước</h4><ol id="history" class="history"></ol><h4>Output</h4><pre class="output" id="simOut">Chưa có kết quả</pre></div></div><div class="toolbar"><button id="prev" class="light">← Bước trước</button><button id="next">Bước tiếp →</button><button id="auto" class="light">▶ Chạy tự động</button><button id="pause" class="light">Ⅱ Tạm dừng</button><button id="reset" class="light">↺ Đặt lại</button></div><div id="simComplete"></div></section>
+<section id="s4" class="panel hidden"><span class="eyebrow blue">CHẶNG 5 / 5</span><h2>Lập trình và kiểm tra</h2><p>Hãy tự viết chương trình C++ trước khi mở lời giải. Không sử dụng <code>vector</code>, <code>reverse</code> hoặc thuật toán chưa học.</p>
+<div id="quiz3"></div><div class="toolbar"><button id="reveal" class="light" disabled>Hiện lời giải C++ (sau câu hỏi)</button><button id="copy" class="light" disabled>Sao chép code</button><button id="zoom" class="light" disabled>Phóng to code</button></div><div id="solutionWrap" class="hidden"><pre class="code" id="solution"></pre><h3>Giải thích từng dòng</h3><div id="explain"></div></div>
+<h3>Kiểm tra kết quả với dữ liệu tự chọn</h3><div class="fieldrow"><label>Nhập n, sau đó n số nguyên (cách nhau bởi khoảng trắng hoặc xuống dòng)<textarea id="customInput">5
+3 8 1 9 4</textarea></label><button id="runCustom">Tính Output</button></div><pre id="customOut" class="output">Chưa chạy</pre>
+<button class="light" id="runTests">Chạy 6 bộ test của bài</button><div id="testResults"></div><div class="info">Trang mô phỏng tính Output bằng JavaScript, không phải trình biên dịch C++. Hãy biên dịch file solution.cpp bằng trình biên dịch C++ để kiểm chứng độc lập.</div></section>
+<footer>HSG TIN9 C++ ACADEMY · Hiểu thuật toán trước khi lập trình · Tiến độ lưu trên thiết bị này</footer>
+</main><script src="lesson-data.js"></script><script src="engine.js"></script></body></html>
