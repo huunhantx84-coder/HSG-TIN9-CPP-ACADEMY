@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bài 01 — Túi quà đồng đều | HSG Tin 9</title><link rel="stylesheet" href="style.css"></head>
+<body><header><div class="head"><span class="eyebrow">HSG TIN HỌC 9 · C++ ACADEMY</span><h1>BÀI 01 · TÚI QUÀ ĐỒNG ĐỀU</h1><p>Tư duy từ bài toán thực tế đến thuật toán Euclid · Kiến thức C++: biến, if, for, while</p></div></header>
+<main><nav id="nav" aria-label="Năm chặng học tập"></nav>
+<section class="panel" id="stage0"><span class="pill">CHẶNG 1 / 5</span><h2>Đọc hiểu đề bài</h2>
+<p>Đội tình nguyện có <strong>A quyển vở</strong> và <strong>B cây bút</strong>. Họ muốn làm nhiều túi quà giống hệt nhau; mỗi túi có cùng số vở và cùng số bút. <strong>Phải dùng hết đồ</strong>, không được chia nhỏ bất kỳ món nào.</p>
+<div class="twobox"><div><h3>Đầu vào · LUYEN01.INP</h3><p>Một dòng gồm hai số nguyên A, B; 1 ≤ A, B ≤ 10<sup>18</sup>.</p></div><div><h3>Đầu ra · LUYEN01.OUT</h3><p>Dòng 1: số túi nhiều nhất.<br>Dòng 2: số vở và số bút trong một túi.</p></div></div>
+<div class="example"><div><small>Ví dụ đầu vào</small><pre>84 126</pre></div><div><small>Ví dụ đầu ra</small><pre>42
+2 3</pre></div></div><div id="quiz0"></div></section>
+<section class="panel hidden" id="stage1"><span class="pill">CHẶNG 2 / 5</span><h2>Khám phá cách chia đều</h2><p>Thử chọn số túi k. Nếu A và B cùng chia hết cho k, phép chia là hợp lệ. Hãy quan sát số vở, số bút và phần dư.</p>
+<div class="inputs"><label>Số vở A<input id="explA" type="number" min="1" max="10000" value="84"></label><label>Số bút B<input id="explB" type="number" min="1" max="10000" value="126"></label><label>Số túi k<input id="explK" type="number" min="1" max="10000" value="7"></label><button id="explore">Kiểm tra cách chia</button></div><div id="explResult" class="result" aria-live="polite"></div>
+<div class="tip"><strong>Quan sát:</strong> Có thể dùng <code>for</code> thử các số túi nhỏ, nhưng nếu A, B lên tới 10<sup>18</sup> thì cách thử lần lượt sẽ quá chậm.</div><div id="quiz1"></div></section>
+<section class="panel hidden" id="stage2"><span class="pill">CHẶNG 3 / 5</span><h2>Hình thành thuật toán</h2>
+<div class="steps"><div><b>01</b><p>Số túi k phải chia hết cả A và B: <code>A % k == 0</code> và <code>B % k == 0</code>.</p></div><div><b>02</b><p>Muốn số túi lớn nhất, tìm <strong>UCLN(A, B)</strong>.</p></div><div><b>03</b><p>Với Euclid: lặp <code>r = a % b; a = b; b = r;</code> đến khi <code>b == 0</code>.</p></div><div><b>04</b><p>Đặt <code>k = a</code>. Số vở/túi là <code>A/k</code>, số bút/túi là <code>B/k</code>.</p></div></div>
+<div class="tip">Thời gian: <strong>O(log(min(A,B)))</strong>. Bộ nhớ phụ: <strong>O(1)</strong>. Dùng <code>long long</code> vì A, B có thể lên tới 10<sup>18</sup>.</div>
+<label class="full">Em hãy giải thích bằng lời: vì sao số túi tối đa là UCLN?<textarea id="reflection" rows="3" placeholder="Viết suy nghĩ của em (tự đối chiếu với gợi ý sau)..."></textarea></label><button id="hint">Hiện gợi ý tự đánh giá</button><div id="hintText" class="tip hidden">Số túi k phải là ước của cả A và B. Trong tất cả các ước chung, ước lớn nhất cho số túi nhiều nhất.</div><div id="quiz2"></div></section>
+<section class="panel hidden" id="stage3"><span class="pill">CHẶNG 4 / 5</span><h2>Mô phỏng Euclid từng bước</h2>
+<div class="inputs"><label>A<input id="simA" type="text" inputmode="numeric" value="84"></label><label>B<input id="simB" type="text" inputmode="numeric" value="126"></label><button id="begin">Bắt đầu</button></div>
+<div class="simgrid"><div><h3>Code C++ · dòng đang thực hiện</h3><pre class="code" id="simCode">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+int main() {
+    freopen("LUYEN01.INP", "r", stdin);
+    freopen("LUYEN01.OUT", "w", stdout);
+
+    long long A, B;
+    cin &gt;&gt; A &gt;&gt; B;
+
+    long long a = A, b = B;
+    while (b != 0) {
+        long long r = a % b;
+        a = b;
+        b = r;
+    }
+    long long k = a;
+    cout &lt;&lt; k &lt;&lt; '\n';
+    cout &lt;&lt; A / k &lt;&lt; " " &lt;&lt; B / k &lt;&lt; '\n';
+    return 0;
+}</pre></div><div><h3>Trạng thái và lịch sử</h3><div id="vars" class="stat"></div><p id="message" class="result">Bấm “Bắt đầu” để tạo mô phỏng.</p><h4>Lịch sử thao tác</h4><ol id="history" class="history"></ol><h4>LUYEN01.OUT</h4><pre id="simOut" class="output">Chưa hoàn thành</pre></div></div>
+<div class="toolbar"><button id="prev" class="secondary">← Bước trước</button><button id="next">Bước tiếp →</button><button id="auto" class="secondary">▶ Chạy tự động</button><button id="pause" class="secondary">Ⅱ Tạm dừng</button><button id="reset" class="secondary">↺ Đặt lại</button></div><div id="quiz3"></div></section>
+<section class="panel hidden" id="stage4"><span class="pill">CHẶNG 5 / 5</span><h2>Lập trình và kiểm tra</h2><p>Tự viết code trước, sau đó đối chiếu lời giải. Đoạn code dùng <code>#include &lt;bits/stdc++.h&gt;</code> và đọc/ghi đúng tên tệp đề bài.</p>
+<div class="toolbar"><button id="showSolution">Hiện / ẩn lời giải</button><button id="copy" class="secondary">Sao chép mã C++</button><button id="zoom" class="secondary">Phóng to mã</button></div>
+<div id="solutionWrap" class="hidden"><pre id="solution" class="code"></pre><h3>Giải thích từng dòng</h3><div id="explain"></div></div>
+<h3>Thử bộ dữ liệu</h3><p>Trang tính kết quả bằng JavaScript <code>BigInt</code> để đối chiếu với đáp án, <strong>không phải trình biên dịch C++</strong>.</p>
+<div class="inputs"><label>A<input id="testA" value="84" inputmode="numeric"></label><label>B<input id="testB" value="126" inputmode="numeric"></label><button id="runTest">Tính kết quả</button></div><pre id="testOut" class="output">Nhập A, B rồi bấm Tính kết quả</pre>
+<button id="allTests" class="secondary">Chạy 6 bộ test mẫu trên trang</button><div id="testResults"></div><div class="tip"><strong>Tự kiểm:</strong> Sau khi lưu mã thành <code>solution.cpp</code>, chạy bằng trình biên dịch C++ trên máy. Phải đặt tệp <code>LUYEN01.INP</code> cạnh chương trình để đọc dữ liệu.</div></section>
+<footer>HSG TIN9 C++ ACADEMY · Học từng bước, hiểu trước khi viết code.</footer></main>
+<script src="lesson-data.js"></script><script src="engine.js"></script></body></html>
