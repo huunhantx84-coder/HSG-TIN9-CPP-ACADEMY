@@ -48,7 +48,7 @@ function show(n){
  var h="";
  if(n===0){
   h='<p class="kicker">CHẶNG 1/5</p><h2>Đọc hiểu yêu cầu đề toán</h2><p>Cho mảng có <strong>n</strong> số nguyên. Hãy tìm có bao nhiêu <strong>giá trị khác nhau</strong> trong mảng (1 ≤ n ≤ 100000; 1 ≤ a[i] ≤ 10⁹).</p>';
-  h+='<div class="example"><strong>Ví dụ:</strong><pre>Input: 6\n15 3 15 1000000000 3 15\nOutput: 3</pre><p>Các giá trị khác nhau là <b>3, 15, 1000000000</b>.</p></div><p class="note">Sáu phần tử nhưng chỉ có ba <em>giá trị</em> khác nhau. Số lặp lại bao nhiêu lần vẫn chỉ đếm một.</p>'+quiz("read")+controls("Kiểm tra và mở chặng 2 →");
+  h+='<div class="example"><strong>Ví dụ:</strong><pre>Input: 6\n15 3 15 1000000000 3 15\nOutput: 3</pre><p>Các giá trị khác nhau là <b>3, 15, 1000000000</b>.</p></div><div class="note"><strong>“Khác nhau từng đôi một” nghĩa là gì?</strong><p>Chọn các phần tử sao cho bất kỳ hai phần tử nào được chọn cũng có giá trị khác nhau. Vì thế, mỗi giá trị chỉ được tính <b>một lần</b>, dù xuất hiện nhiều lần trong mảng.</p><p>Ví dụ: <b>15, 3, 15, 1000000000, 3, 15</b> có 3 giá trị phân biệt: <b>3, 15, 1000000000</b>. Đây là đáp án <b>3</b>.</p><p><strong>Không nhầm với “xuất hiện đúng một lần”:</strong> trong ví dụ này chỉ có số <b>1000000000</b> xuất hiện đúng một lần, nhưng bài toán yêu cầu đếm <b>3 giá trị khác nhau</b>.</p></div>'+quiz("read")+controls("Kiểm tra và mở chặng 2 →");
  }
  if(n===1){
   h='<p class="kicker">CHẶNG 2/5</p><h2>Khám phá vì sao cần sắp xếp</h2><p>Trước khi sắp xếp, các giá trị bằng nhau nằm rải rác. Sau sắp xếp tăng dần, chúng đứng sát nhau.</p><div class="example"><b>Trước sắp xếp</b>'+cells(d.sample,-1,-1)+'<b>Sau sắp xếp</b><div id="sorted-array"></div></div>';
@@ -56,7 +56,7 @@ function show(n){
  }
  if(n===2){
   h='<p class="kicker">CHẶNG 3/5</p><h2>Hình thành thuật toán</h2><p>Đưa các giá trị bằng nhau về cạnh nhau bằng <code>sort(a,a+n)</code>. Vì mảng không rỗng, đặt <code>dem=1</code>. Với mỗi i từ 1 đến n-1, nếu <code>a[i] != a[i-1]</code> thì tăng dem.</p>';
-  h+='<p class="note">Mấu chốt: a[i] khác a[i-1] nghĩa là có thêm một giá trị chưa được đếm.</p><p class="note warning">Không dùng hai vòng lặp để so sánh mọi cặp khi n có thể lên tới 100000.</p>'+quiz("algorithm")+'<label for="reason"><b>Hãy giải thích bằng tiếng Việt vì sao cần sắp xếp trước:</b></label><textarea id="reason" rows="3"></textarea><p class="muted">Tối thiểu 10 từ; giáo viên vẫn cần đọc nội dung giải thích vì trang chỉ kiểm tra độ dài.</p>'+controls("Kiểm tra và mở chặng 4 →");
+  h+='<div class="note"><strong>Vì sao chỉ so sánh hai phần tử kề nhau?</strong><p>Sau khi sắp xếp tăng dần, các phần tử bằng nhau luôn nằm liên tiếp. Bắt đầu <code>dem = 1</code> cho giá trị đầu tiên. Khi <code>a[i] != a[i-1]</code>, ta gặp một <b>giá trị mới</b>, tăng <code>dem</code> lên 1.</p><p>Như vậy, <code>dem</code> là số lượng <b>giá trị phân biệt (khác nhau từng đôi một)</b>, <b>không phải</b> số phần tử xuất hiện đúng một lần.</p></div><p class="note warning">Không dùng hai vòng lặp để so sánh mọi cặp khi n có thể lên tới 100000.</p>'+quiz("algorithm")+'<label for="reason"><b>Hãy giải thích bằng tiếng Việt vì sao cần sắp xếp trước:</b></label><textarea id="reason" rows="3"></textarea><p class="muted">Tối thiểu 10 từ; giáo viên vẫn cần đọc nội dung giải thích vì trang chỉ kiểm tra độ dài.</p>'+controls("Kiểm tra và mở chặng 4 →");
  }
  if(n===3){
   h='<p class="kicker">CHẶNG 4/5</p><h2>Mô phỏng code C++ từng bước</h2><p>Không có lưu đồ. Dòng được tô sáng phản ánh phần thuật toán đang chạy.</p>';
