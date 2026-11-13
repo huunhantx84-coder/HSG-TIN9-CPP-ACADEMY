@@ -1,6 +1,18 @@
 # Bài 11 — Kiểm tra mã niêm phong
 
-> Bản mô tả nội dung và thiết kế bài học. Đây là đặc tả để triển khai; chưa phải trang mô phỏng đã lập trình.
+> Đã triển khai trang mô phỏng HTML độc lập theo MO_PHONG_C++.
+
+[Mở mô phỏng trực tuyến](https://huunhantx84-coder.github.io/HSG-TIN9-CPP-ACADEMY/lessons/bai11-kiem-tra-ma-niem-phong/) · [Tệp HTML](index.html)
+
+## Bản mô phỏng hiện tại
+- Một tệp index.html, mở ngoại tuyến bằng Chrome/Edge, không cần thư viện mạng.
+- Ba cột 16:9: Code C++ | Lưu đồ thuật toán | Trạng thái + Lịch sử; Output ở phía dưới.
+- Hai nút Bắt đầu và Reset. Mỗi lần nhấn thực hiện một chữ số hoặc một giai đoạn nhập/kết luận/xuất; có 38 lượt, 218 trạng thái.
+- Code tô sáng, hiển thị ma, dem[0..9], biến hiện hành, điều kiện đúng/sai, danh sách vị trí và lịch sử sáu kiện.
+- Reset hủy lượt đang chạy. Không tự chạy khi mở trang. Bộ dữ liệu cố định là ví dụ đề.
+- Đã biên dịch chính code hiển thị với g++ C++17, vượt 110 bộ kiểm tra gồm N=100000; output mẫu khớp trace. Bộ kiểm tra khung đạt 45 kiểm tra controller và 44 kiểm tra DOM nhẹ.
+- Chưa kiểm tra trực quan trong trình duyệt: môi trường chặn Chromium khởi chạy. Kiểm tra DOM nhẹ không thay thế kiểm tra bố cục/animation.
+- Mục 7 giữ thiết kế mở rộng 5 chặng; phiên bản hiện tại triển khai phần mô phỏng, chưa có câu hỏi mở khóa, nhập dữ liệu tùy ý hoặc nút bước trước.
 
 ## 1. Mục tiêu
 Dành cho học sinh bồi dưỡng HSG Tin học 9. Học sinh biết chuyển điều kiện “không có chữ số xuất hiện từ hai lần trở lên” thành thuật toán mảng đếm; kiểm tra từng mã độc lập; lưu đúng vị trí kiện hàng theo thứ tự ban đầu.
@@ -191,4 +203,5 @@ Dấu / trong cột output biểu thị xuống dòng.
 Khi triển khai cần kiểm tra: chạy/nhấn từng bước cho cùng kết quả; bước trước và reset đúng; dừng tự chạy ở cuối; thay input hủy lượt chạy cũ; không dùng bộ kiểm tra UCLN của template cho bài này. Kiểm thử hiệu năng với N = 100000 riêng với lời giải; mô phỏng trên màn hình nên dùng tập nhỏ và thông báo giới hạn hiển thị.
 
 ## 9. Phạm vi bản đăng này
-Bổ sung bản mô tả Bài 11 vào lessons/bai11-kiem-tra-ma-niem-phong/README.md. Trang HTML, engine mô phỏng và liên kết từ trang chủ là công việc triển khai tiếp theo; bản mô tả không xác nhận các phần đó đã hoàn thành.
+
+Đã có README.md và index.html trong thư mục bài. Trang chủ repository được giữ nguyên. Mở mô phỏng qua liên kết trực tiếp ở đầu tài liệu. Các chức năng 5 chặng chưa triển khai được nêu rõ trong phần “Bản mô phỏng hiện tại”.
